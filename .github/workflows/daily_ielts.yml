@@ -2,8 +2,9 @@ name: Daily IELTS Reading Sender
 
 on:
   schedule:
-    # 매일 한국 시간 아침 7시 (UTC 22:00) 에 실행되도록 설정합니다.
-    - cron: '0 22 * * *'
+    # 매일 한국 시간 아침 7시 (UTC 22:00) 에 실행 (월~금요일만).
+    # 한국의 월~금 오전 7시는 UTC 기준 일~목 오후 10시(22:00)입니다 (cron의 0-4)
+    - cron: '0 22 * * 0-4'
   workflow_dispatch:
     # 수동으로 테스트 실행할 수 있도록 허용합니다.
 
