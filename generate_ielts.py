@@ -1,5 +1,5 @@
 import os
-import google.generativeai as genai
+from google import genai
 
 def generate_ielts_reading():
     """
@@ -10,10 +10,7 @@ def generate_ielts_reading():
     if not api_key:
         raise ValueError("GEMINI_API_KEY 환경 변수가 설정되지 않았습니다.")
 
-    genai.configure(api_key=api_key)
-    
-    # gemini-1.5-flash 모델을 사용합니다 (빠르고 저렴하며 충분한 성능)
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    client = genai.Client(api_key=api_key)
 
     prompt = """
     You are an expert IELTS test creator.
@@ -54,7 +51,10 @@ def generate_ielts_reading():
     """
 
     try:
-        response = model.generate_content(prompt)
+        response = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=prompt,
+        )
         # Markdown 포맷으로 응답이 올 경우를 대비해 앞뒤의 ```html 과 ``` 를 제거
         html_content = response.text.strip()
         if html_content.startswith("```html"):
